@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: stock-price-prediction
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      # Ensure model.pkl exists; assuming it's pre-generated
+      # If model needs to be generated, uncomment the following:
+      # python train_model.py
+    startCommand: "gunicorn --workers 1 --threads 8 --timeout 0 server:app"
+    autoDeploy: false
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
